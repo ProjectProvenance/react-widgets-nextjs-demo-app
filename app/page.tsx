@@ -1,14 +1,14 @@
 async function getProvData() {
-  const res = await fetch('https://www.provenance.org/en/bundles/fb405L7e/embed/product/HS1')
-  // The return value is *not* serialized
-  // You can return Date, Map, Set, etc.
+  const skus = ['HS1', '1F2C']
+  const url = 'https://www.provenance.org/en/bundles/fb405L7e/embed/product/'
+  const urls = skus.map(sku => url + sku)
 
-  if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
-    throw new Error('Failed to fetch Prov data')
-  }
-
-  return res.text()
+  return await Promise.all(
+    urls.map(async url => {
+      const resp = await fetch(url)
+      return resp.text()
+    })
+  )
 }
 
 export default async function Home() {
@@ -16,7 +16,9 @@ export default async function Home() {
 
   return (
     <main>
-      <div dangerouslySetInnerHTML={{ __html: prov }} />
+      {prov.map((html, index) =>
+        <div dangerouslySetInnerHTML={{ __html: html }} key={`prov-${index}`} />
+      )}
       <script src="https://unpkg.com/@provenance/provenance-sdk@1/dist/provenance-sdk.js"></script>
     </main>
   );
