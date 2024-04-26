@@ -1,7 +1,6 @@
-async function getProvData() {
-  const skus = ['HS1', '1F2C']
+async function getProvData(ids: string[]) {
   const url = 'https://www.provenance.org/en/bundles/fb405L7e/embed/product/'
-  const urls = skus.map(sku => url + sku)
+  const urls = ids.map(id => url + id)
 
   return await Promise.all(
     urls.map(async url => {
@@ -11,8 +10,12 @@ async function getProvData() {
   )
 }
 
-export default async function Provenance() {
-  const prov = await getProvData()
+export interface ProvenanceProps {
+  ids: string[];
+}
+
+export default async function Provenance({ ids }: ProvenanceProps) {
+  const prov = await getProvData(ids)
 
   return (
     <main>
