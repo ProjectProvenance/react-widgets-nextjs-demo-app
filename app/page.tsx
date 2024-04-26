@@ -1,4 +1,4 @@
-import Provenance from './components/provenance'
+import Provenance from '@provenance/react-widgets'
 
 export default async function Home() {
   return (
