@@ -1,9 +1,15 @@
 import Provenance from '@provenance/react-widgets'
+import PageContent from './page-content'
 
-export default async function Home() {
+const productIds = ['HS1', '1F2C']
+
+export default function Home() {
+
   return (
     <main>
-      <Provenance ids={['HS1', '1F2C']} />
+      <PageContent ids={productIds}>
+        <Provenance ids={productIds} />
+      </PageContent>
     </main>
   )
 }
